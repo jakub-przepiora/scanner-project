@@ -4,19 +4,21 @@ import re
 class FindVulnFunction:
 
 
-    keywords_to_check = ['$_POST', 'eval(', 'system(']  
-    regex_patterns = [re.compile("'.\$[a-zA-Z0-9]+.'")]  
+    keywords_to_check = ['$_POST', '$_GET[', ' eval(', ' system(']  
+    regex_patterns = [re.compile("'\.\$[a-zA-Z0-9]+\.'")]  
    
     def __init__(self, format, fileList) -> None:
         susLine = 0
         for file in fileList:
             extension = file.split('.')[1]
             if len(extension) <= 1:
+                print('============================================================================')
+                print(f'[!!!] Sus line: {susLine}')
                 return None
             if extension in format:
                 if extension == 'php':
                     susLine += self.findInPhpFile(file)
-                
+        print('============================================================================')
         print(f'[!!!] Sus line: {susLine}')     
         
 
